@@ -12,24 +12,44 @@ import RxCocoa
 
 class RestaurantItemViewModel: ViewModel {
     
-    struct Input {}
+    struct Input {
+        let bookmark: Observable<Void>?
+    }
     struct Output {
         let name: Driver<String>
+        let openStatus: Driver<RestaurantStatus>
+        let isBookmarked: Driver<Bool>
     }
     struct Dependencies {
         let model: Restaurant
     }
     private let dependencies: Dependencies
+    private let disposeBag = DisposeBag()
     
     init(dependencies: Dependencies) {
         self.dependencies = dependencies
     }
 
     func transform(input: Input) -> Output {
-        let name = Observable.just(self.dependencies.model.name)
-            .asDriver(onErrorJustReturn: self.dependencies.model.name)
+        input.bookmark?
+            .subscribe(onNext: { _ in
+                #warning("TODO")
+                print("todo")
+            })
+            .disposed(by: self.disposeBag)
+        
+        let model = self.dependencies.model
+        let name = Observable.just(model.name)
+            .asDriver(onErrorJustReturn: model.name)
+        let openStatus = Observable.just(model.status)
+            .asDriver(onErrorJustReturn: model.status)
+        let isBookmarked = Observable.just(false)
+            .asDriver(onErrorJustReturn: false)
+        
         return Output(
-            name: name
+            name: name,
+            openStatus: openStatus,
+            isBookmarked: isBookmarked
         )
     }
 }

@@ -15,3 +15,8 @@ public enum RestaurantStatus: String {
     case closed = "closed"
     case orderAhead = "order ahead"
 }
+
+extension RestaurantStatus {
+    
+    var title: String { self.rawValue }
+}

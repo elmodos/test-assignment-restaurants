@@ -22,19 +22,30 @@ class RestaurantItemViewModel: ViewModel {
     }
     struct Dependencies {
         let model: Restaurant
+        let bookmarkStore: AnyBookmarkStore<String>?
     }
     private let dependencies: Dependencies
     private let disposeBag = DisposeBag()
     
+    private lazy var bookmarkedSubject = BehaviorRelay<Bool>(value: self.isBookmarked())
+    
     init(dependencies: Dependencies) {
         self.dependencies = dependencies
+        self.dependencies.bookmarkStore?
+            .bookmarksChanged
+            .subscribe(onNext: { [weak self] _ in
+                self?.bookmarkedSubject.accept(self!.isBookmarked())
+            })
+            .disposed(by: self.disposeBag)
     }
 
     func transform(input: Input) -> Output {
+        let bookmarkStore = self.dependencies.bookmarkStore
+        let bookmarkElement = self.dependencies.model.name
+            
         input.bookmark?
             .subscribe(onNext: { _ in
-                #warning("TODO")
-                print("todo")
+                bookmarkStore?.toggle(for: bookmarkElement)
             })
             .disposed(by: self.disposeBag)
         
@@ -43,13 +54,18 @@ class RestaurantItemViewModel: ViewModel {
             .asDriver(onErrorJustReturn: model.name)
         let openStatus = Observable.just(model.status)
             .asDriver(onErrorJustReturn: model.status)
-        let isBookmarked = Observable.just(false)
-            .asDriver(onErrorJustReturn: false)
+        let isBookmarked = self.bookmarkedSubject.asDriver()
         
         return Output(
             name: name,
             openStatus: openStatus,
             isBookmarked: isBookmarked
         )
+    }
+    
+    func isBookmarked() -> Bool {
+        let element = self.dependencies.model.name
+        return self.dependencies.bookmarkStore?.isBookmarked(element)
+            ?? false
     }
 }

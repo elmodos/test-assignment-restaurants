@@ -30,6 +30,9 @@
 		FA824D6323D4825000BDE864 /* RestaurantListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA824D6223D4825000BDE864 /* RestaurantListViewController.swift */; };
 		FA824D6523D482FC00BDE864 /* RestaurantItemCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA824D6423D482FC00BDE864 /* RestaurantItemCell.swift */; };
 		FA824D6723D485B600BDE864 /* RestaurantItemCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = FA824D6623D485B600BDE864 /* RestaurantItemCell.xib */; };
+		FA824D6923D4A74200BDE864 /* BookmarkStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA824D6823D4A74200BDE864 /* BookmarkStore.swift */; };
+		FA824D6B23D4AD9500BDE864 /* UserDefaultsBookmarkStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA824D6A23D4AD9500BDE864 /* UserDefaultsBookmarkStore.swift */; };
+		FA824D6D23D4C85300BDE864 /* UserDefaultsBookmarkStoreTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA824D6C23D4C85300BDE864 /* UserDefaultsBookmarkStoreTests.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -74,6 +77,9 @@
 		FA824D6223D4825000BDE864 /* RestaurantListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RestaurantListViewController.swift; sourceTree = "<group>"; };
 		FA824D6423D482FC00BDE864 /* RestaurantItemCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RestaurantItemCell.swift; sourceTree = "<group>"; };
 		FA824D6623D485B600BDE864 /* RestaurantItemCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = RestaurantItemCell.xib; sourceTree = "<group>"; };
+		FA824D6823D4A74200BDE864 /* BookmarkStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookmarkStore.swift; sourceTree = "<group>"; };
+		FA824D6A23D4AD9500BDE864 /* UserDefaultsBookmarkStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaultsBookmarkStore.swift; sourceTree = "<group>"; };
+		FA824D6C23D4C85300BDE864 /* UserDefaultsBookmarkStoreTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaultsBookmarkStoreTests.swift; sourceTree = "<group>"; };
 		FCBC2D899E9E6619D561E6BB /* Pods-RestaurantsTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-RestaurantsTests.release.xcconfig"; path = "Target Support Files/Pods-RestaurantsTests/Pods-RestaurantsTests.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -173,6 +179,7 @@
 				FA824D4D23D46C4A00BDE864 /* RestaurantSortingValues.swift */,
 				FA824D5723D46FEE00BDE864 /* RestaurantListLoader.swift */,
 				FA824D5923D4718F00BDE864 /* RestaurantListLoaderTests.swift */,
+				FA824D6823D4A74200BDE864 /* BookmarkStore.swift */,
 			);
 			path = Shared;
 			sourceTree = "<group>";
@@ -183,6 +190,8 @@
 				FA824D4F23D46CEB00BDE864 /* RestaurantSortingValuesModel.swift */,
 				FA824D5123D46D2000BDE864 /* RestaurantModel.swift */,
 				FA824D5323D46E1200BDE864 /* RestaurantListModel.swift */,
+				FA824D6A23D4AD9500BDE864 /* UserDefaultsBookmarkStore.swift */,
+				FA824D6C23D4C85300BDE864 /* UserDefaultsBookmarkStoreTests.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -412,6 +421,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				FA824D5823D46FEE00BDE864 /* RestaurantListLoader.swift in Sources */,
+				FA824D6923D4A74200BDE864 /* BookmarkStore.swift in Sources */,
 				FA824D5D23D4746E00BDE864 /* RestaurantListViewModel.swift in Sources */,
 				FA824D4A23D46C0100BDE864 /* Restaurant.swift in Sources */,
 				FA824D6323D4825000BDE864 /* RestaurantListViewController.swift in Sources */,
@@ -424,6 +434,7 @@
 				FA824D5423D46E1200BDE864 /* RestaurantListModel.swift in Sources */,
 				FA824D4723D46B3E00BDE864 /* ViewModel.swift in Sources */,
 				FA824D6523D482FC00BDE864 /* RestaurantItemCell.swift in Sources */,
+				FA824D6B23D4AD9500BDE864 /* UserDefaultsBookmarkStore.swift in Sources */,
 				FA824D1C23D4626000BDE864 /* SceneDelegate.swift in Sources */,
 				FA824D4E23D46C4A00BDE864 /* RestaurantSortingValues.swift in Sources */,
 			);
@@ -435,6 +446,7 @@
 			files = (
 				FA824D3423D4626300BDE864 /* RestaurantsTests.swift in Sources */,
 				FA824D5A23D4718F00BDE864 /* RestaurantListLoaderTests.swift in Sources */,
+				FA824D6D23D4C85300BDE864 /* UserDefaultsBookmarkStoreTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

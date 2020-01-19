@@ -66,7 +66,7 @@ class RestaurantItemCell: UITableViewCell {
                 self.labelTitle?.text = name
                 self.labelOpenStatus?.text = openStatus.title
                 
-                let bookMarkButtonTitle = isBookmarked ? "⭐️" : "Bookmark"
+                let bookMarkButtonTitle = isBookmarked ? "★" : "☆"
                 self.buttonBookmark?.setTitle(bookMarkButtonTitle, for: [])
             })
             .disposed(by: self.reuseDisposeBag)

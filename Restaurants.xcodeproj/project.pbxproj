@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 50;
+	objectVersion = 51;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -43,6 +43,7 @@
 		FA824D2F23D4626300BDE864 /* RestaurantsTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = RestaurantsTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		FA824D3323D4626300BDE864 /* RestaurantsTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RestaurantsTests.swift; sourceTree = "<group>"; };
 		FA824D3523D4626300BDE864 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		FA824D4123D4697B00BDE864 /* .swiftlint.yml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.yaml; name = .swiftlint.yml; path = "/Users/elmodos/Projects/test-assignment-restaurants/.swiftlint.yml"; sourceTree = "<absolute>"; };
 		FCBC2D899E9E6619D561E6BB /* Pods-RestaurantsTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-RestaurantsTests.release.xcconfig"; path = "Target Support Files/Pods-RestaurantsTests/Pods-RestaurantsTests.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -74,7 +75,6 @@
 				DFB9CCD19FE7B27D48650496 /* Pods-RestaurantsTests.debug.xcconfig */,
 				FCBC2D899E9E6619D561E6BB /* Pods-RestaurantsTests.release.xcconfig */,
 			);
-			name = Pods;
 			path = Pods;
 			sourceTree = "<group>";
 		};
@@ -86,6 +86,7 @@
 				FA824D1723D4626000BDE864 /* Products */,
 				A662CFADEB735DEE11D4BC01 /* Pods */,
 				FAD9D169B9DE0CCD8E7B63CB /* Frameworks */,
+				FA824D4123D4697B00BDE864 /* .swiftlint.yml */,
 			);
 			sourceTree = "<group>";
 		};
@@ -137,6 +138,7 @@
 			buildConfigurationList = FA824D3823D4626300BDE864 /* Build configuration list for PBXNativeTarget "Restaurants" */;
 			buildPhases = (
 				A7571DE1FCB2E564CD2257F5 /* [CP] Check Pods Manifest.lock */,
+				FA824D3E23D468DF00BDE864 /* 👽 Swiftlint */,
 				FA824D1223D4626000BDE864 /* Sources */,
 				FA824D1323D4626000BDE864 /* Frameworks */,
 				FA824D1423D4626000BDE864 /* Resources */,
@@ -288,6 +290,24 @@
 			shellPath = /bin/sh;
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
+		};
+		FA824D3E23D468DF00BDE864 /* 👽 Swiftlint */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			name = "👽 Swiftlint";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "${PODS_ROOT}/SwiftLint/swiftlint\n";
 		};
 /* End PBXShellScriptBuildPhase section */
 

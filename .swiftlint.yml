@@ -1,0 +1,14 @@
+disabled_rules: # rule identifiers to exclude from running
+ - trailing_whitespace
+ - line_length
+ - redundant_optional_initialization
+ - nesting
+ - redundant_string_enum_value
+ - unused_closure_parameter
+ - empty_enum_arguments
+ 
+excluded: # paths to ignore during linting. Takes precedence over `included`.
+ - Pods
+
+cyclomatic_complexity:
+    ignores_case_statements: true

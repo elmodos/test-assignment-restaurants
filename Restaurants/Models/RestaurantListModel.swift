@@ -8,7 +8,7 @@
 
 import Foundation
 
-class RestaurantListModel: Decodable, Restaurantlist {
+class RestaurantListModel: Decodable, RestaurantList {
 
     var restaurantModels: [RestaurantModel]
     enum CodingKeys: String, CodingKey {

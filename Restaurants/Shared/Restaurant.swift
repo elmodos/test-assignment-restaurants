@@ -17,6 +17,6 @@ public protocol SortableRestaurant: Restaurant {
     var sortingValues: RestaurantSortingValues { get }
 }
 
-public protocol Restaurantlist {
+public protocol RestaurantList {
     var restaurants: [SortableRestaurant] { get }
 }

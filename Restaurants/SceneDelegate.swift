@@ -68,7 +68,7 @@ extension SceneDelegate {
             throw MyError.fileNotFound
         }
         let data = try Data(contentsOf: url)
-        let restaurants: Restaurantlist = try JSONDecoder().decode(RestaurantListModel.self, from: data)
+        let restaurants = try RestaurantListLoader.load(from: data)
         print("\(restaurants.restaurants.map { $0.name })")
         
         let viewController = UIViewController(nibName: nil, bundle: nil)

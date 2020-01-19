@@ -12,14 +12,18 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
     var window: UIWindow?
 
-    func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
-        // Use this method to optionally configure and attach the UIWindow `window` to the provided UIWindowScene `scene`.
-        // If using a storyboard, the `window` property will automatically be initialized and attached to the scene.
-        // This delegate does not imply the connecting scene or session are new (see `application:configurationForConnectingSceneSession` instead).
+    func scene(
+        _ scene: UIScene,
+        willConnectTo session: UISceneSession,
+        options connectionOptions: UIScene.ConnectionOptions
+    ) {
         guard let windowScene = (scene as? UIWindowScene) else { return }
         self.window = UIWindow(windowScene: windowScene)
-        self.window?.rootViewController = UIViewController(nibName: nil, bundle: nil)
-        self.window?.rootViewController?.view?.backgroundColor = .red
+        do {
+            self.window?.rootViewController = try self.createRootVc()
+        } catch {
+            print("Error: \(error)")
+        }
         self.window?.makeKeyAndVisible()
     }
 
@@ -52,5 +56,26 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
         // Save changes in the application's managed object context when the application transitions to the background.
         (UIApplication.shared.delegate as? AppDelegate)?.saveContext()
+    }
+}
+
+extension SceneDelegate {
+    
+    func createRootVc() throws -> UIViewController {
+        
+        enum MyError: Error { case fileNotFound }
+        guard let url = Bundle.main.url(forResource: "sample", withExtension: "json") else {
+            throw MyError.fileNotFound
+        }
+        let data = try Data(contentsOf: url)
+        let restaurants = try RestaurantListLoader.load(from: data)
+        print("\(restaurants.restaurants.map { $0.name })")
+        
+        let dependencies = RestaurantListViewModel.Dependencies(model: restaurants)
+        let viewModel = RestaurantListViewModel(dependencies: dependencies)
+        
+        let viewController = RestaurantListViewController(viewModel: viewModel)
+        let navigationController = UINavigationController(rootViewController: viewController)
+        return navigationController
     }
 }

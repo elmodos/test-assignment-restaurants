@@ -22,6 +22,7 @@ class RestaurantItemViewModel: ViewModel {
     }
     struct Dependencies {
         let model: Restaurant
+        let bookmarkStore: AnyBookmarkStore<String>?
     }
     private let dependencies: Dependencies
     private let disposeBag = DisposeBag()

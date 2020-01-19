@@ -23,6 +23,7 @@ class RestaurantListViewModel: ViewModel {
 
     struct Dependencies {
         let model: RestaurantList
+        let bookmarkStore: AnyBookmarkStore<String>?
     }
     private let dependencies: Dependencies
     
@@ -31,11 +32,15 @@ class RestaurantListViewModel: ViewModel {
     }
     
     func transform(input: Input) -> Output {
+        let bookmarkStore = self.dependencies.bookmarkStore
         let mappedList = Observable
             .just(self.dependencies.model.restaurants)
             .map { list -> [RestaurantItemViewModel] in
                 return list.map {
-                    let dependencies = RestaurantItemViewModel.Dependencies(model: $0)
+                    let dependencies = RestaurantItemViewModel.Dependencies(
+                        model: $0,
+                        bookmarkStore: bookmarkStore
+                    )
                     return RestaurantItemViewModel(dependencies: dependencies)
                 }
             }

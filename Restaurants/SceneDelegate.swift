@@ -71,7 +71,10 @@ extension SceneDelegate {
         let restaurants = try RestaurantListLoader.load(from: data)
         print("\(restaurants.restaurants.map { $0.name })")
         
-        let viewController = UIViewController(nibName: nil, bundle: nil)
+        let dependencies = RestaurantListViewModel.Dependencies(model: restaurants)
+        let viewModel = RestaurantListViewModel(dependencies: dependencies)
+        
+        let viewController = RestaurantListViewController(viewModel: viewModel)
         let navigationController = UINavigationController(rootViewController: viewController)
         return navigationController
     }

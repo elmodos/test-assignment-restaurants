@@ -71,10 +71,13 @@ extension SceneDelegate {
         let restaurants = try RestaurantListLoader.load(from: data)
         print("\(restaurants.restaurants.map { $0.name })")
         
-        let bookmarkStore = UserDefaultsBookmarkStore<String>(suiteName: "conm.github.elmodos.Restaurants.bookmarks")
+        let bookmarkStore = UserDefaultsBookmarkStore<String>(
+            suiteName: "conm.github.elmodos.Restaurants.bookmarks"
+        )
         let dependencies = RestaurantListViewModel.Dependencies(
             model: restaurants,
-            bookmarkStore: bookmarkStore
+            bookmarkStore: bookmarkStore,
+            initialSortValue: .bestMatch
         )
         let viewModel = RestaurantListViewModel(dependencies: dependencies)
         

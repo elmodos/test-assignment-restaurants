@@ -20,3 +20,7 @@ public protocol SortableRestaurant: Restaurant {
 public protocol RestaurantList {
     var restaurants: [SortableRestaurant] { get }
 }
+
+public extension Restaurant {
+    var bookmarkId: String { self.name }
+}

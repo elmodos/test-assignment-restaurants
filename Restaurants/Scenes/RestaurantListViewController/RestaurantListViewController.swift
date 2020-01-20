@@ -16,7 +16,8 @@ class RestaurantListViewController: UITableViewController {
     let cellId = "cell"
     let disposeBag = DisposeBag()
     lazy var buttonItemSort = UIBarButtonItem(title: "Sort", style: .plain, target: nil, action: nil)
-
+    private let viewAppearRelay = BehaviorRelay<Bool>(value: false)
+    
     init(viewModel: RestaurantListViewModel) {
         self.viewModel = viewModel
         super.init(style: .plain)
@@ -34,6 +35,28 @@ class RestaurantListViewController: UITableViewController {
         self.bindModel(self.viewModel)
     }
 
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        // Some interactive dismisal may be cancelled without calling didDisappear
+        // May also use RxViewController here
+        self.viewAppearRelay.accept(true)
+    }
+
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        self.viewAppearRelay.accept(true)
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        self.viewAppearRelay.accept(false)
+    }
+
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
+        self.viewAppearRelay.accept(false)
+    }
+
     private func bindModel(_ model: RestaurantListViewModel) {
         // exposing events
         let itemAtIndexSelected = self.tableView.rx
@@ -43,9 +66,15 @@ class RestaurantListViewController: UITableViewController {
             })
             .throttle(.milliseconds(300), scheduler: MainScheduler.instance)
             .map { $0.row }
-
+        let sortTapped = self.buttonItemSort.rx
+            .tap
+            .throttle(.milliseconds(300), scheduler: MainScheduler.instance)
+        let viewVisible = self.viewAppearRelay.asObservable()
+        
         let input = RestaurantListViewModel.Input(
-            itemAtIndexSelected: itemAtIndexSelected
+            itemAtIndexSelected: itemAtIndexSelected,
+            sortTapped: sortTapped,
+            viewVisible: viewVisible
         )
         
         // consuming
@@ -53,10 +82,20 @@ class RestaurantListViewController: UITableViewController {
 
         self.tableView.delegate = nil
         self.tableView.dataSource = nil
-        output.list
-            .asObservable()
-            .bind(to: self.tableView.rx.items(cellIdentifier: "cell")) { row, model, cell in
-                (cell as? RestaurantItemCell)?.setModel(model: model, index: row + 1)
+        let listAndViewVisible = Observable.combineLatest(
+            output.list.asObservable(),
+            self.viewAppearRelay.asObservable()
+        )
+        
+        listAndViewVisible
+            .filter {
+                print("View is visible \($1)")
+                return $1 == true
+            }
+            .map { (list, _) -> [RestaurantItemViewModel] in list }
+            .bind(to: self.tableView.rx.items(cellIdentifier: self.cellId)) { row, itemModel, cell in
+                let itemCell = cell as? RestaurantItemCell
+                itemCell?.setModel(model: itemModel, sortField: model.currentSortField)
             }
             .disposed(by: self.disposeBag)
         
@@ -66,10 +105,22 @@ class RestaurantListViewController: UITableViewController {
                     ?? print("Warning: self already deallocated")
             })
             .disposed(by: self.disposeBag)
+        
+        output.showSortOptions
+            .subscribe(onNext: { [weak self] viewModel in
+                self?.showSortingOptions(model: viewModel)
+                    ?? print("Warning: self already deallocated")
+            })
+            .disposed(by: self.disposeBag)
     }
     
     private func showRestaurantDetails(_ model: RestaurantItemViewModel) {
         #warning("TODO")
         print("Model: \(model)")
+    }
+    
+    private func showSortingOptions(model: SortViewModel) {
+        let viewController = SortViewController(viewModel: model)
+        self.navigationController?.show(viewController, sender: nil)
     }
 }

@@ -16,12 +16,11 @@ class RestaurantItemViewModel: ViewModel {
         let bookmark: Observable<Void>?
     }
     struct Output {
-        let name: Driver<String>
-        let openStatus: Driver<RestaurantStatus>
+        let restaurant: Driver<SortableRestaurant>
         let isBookmarked: Driver<Bool>
     }
     struct Dependencies {
-        let model: Restaurant
+        let model: SortableRestaurant
         let bookmarkStore: AnyBookmarkStore<String>?
     }
     private let dependencies: Dependencies
@@ -41,7 +40,7 @@ class RestaurantItemViewModel: ViewModel {
 
     func transform(input: Input) -> Output {
         let bookmarkStore = self.dependencies.bookmarkStore
-        let bookmarkElement = self.dependencies.model.name
+        let bookmarkElement = self.dependencies.model.bookmarkId
             
         input.bookmark?
             .subscribe(onNext: { _ in
@@ -50,21 +49,17 @@ class RestaurantItemViewModel: ViewModel {
             .disposed(by: self.disposeBag)
         
         let model = self.dependencies.model
-        let name = Observable.just(model.name)
-            .asDriver(onErrorJustReturn: model.name)
-        let openStatus = Observable.just(model.status)
-            .asDriver(onErrorJustReturn: model.status)
+        let restaurant = BehaviorRelay<SortableRestaurant>(value: model).asDriver()
         let isBookmarked = self.bookmarkedSubject.asDriver()
         
         return Output(
-            name: name,
-            openStatus: openStatus,
+            restaurant: restaurant,
             isBookmarked: isBookmarked
         )
     }
     
     func isBookmarked() -> Bool {
-        let element = self.dependencies.model.name
+        let element = self.dependencies.model.bookmarkId
         return self.dependencies.bookmarkStore?.isBookmarked(element)
             ?? false
     }

@@ -11,7 +11,7 @@ import XCTest
 
 class UserDefaultsBookmarkStoreTests: XCTestCase {
 
-    let suitName = "unittest.strings"
+    let suitName = #file
     var store: UserDefaultsBookmarkStore<String>!
     let key1 = "bookmark1"
     let key2 = "bookmark2"
@@ -21,8 +21,7 @@ class UserDefaultsBookmarkStoreTests: XCTestCase {
     }
 
     override func tearDown() {
-        store.setBookmarked(false, element: key1)
-        store.setBookmarked(false, element: key2)
+        UserDefaults().removePersistentDomain(forName: self.suitName)
     }
 
     func testStrings() {

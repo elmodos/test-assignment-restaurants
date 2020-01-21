@@ -11,6 +11,7 @@ import RxSwift
 
 public class UserDefaultsBookmarkStore<TElement: Encodable & Equatable>: AnyBookmarkStore<TElement> {
     
+    var synchronizeToFile: Bool = true
     public typealias Element = TElement
     override public var bookmarksChanged: Observable<Void> {
         self.bookmarksChangedSubject.asObservable()
@@ -46,7 +47,9 @@ public class UserDefaultsBookmarkStore<TElement: Encodable & Equatable>: AnyBook
             array.append(element)
         }
         self.userDefaults.set(array, forKey: self.key)
-        self.userDefaults.synchronize()
+        if self.synchronizeToFile {            
+            self.userDefaults.synchronize()
+        }
         self.bookmarksChangedSubject.onNext(())
     }
     

@@ -11,7 +11,7 @@ import XCTest
 
 class UserDefaultsBookmarkStoreTests: XCTestCase {
 
-    let suitName = #file
+    let suitName = "test." + #file // don't treat suite name as file path
     var store: UserDefaultsBookmarkStore<String>!
     let key1 = "bookmark1"
     let key2 = "bookmark2"

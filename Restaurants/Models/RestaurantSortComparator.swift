@@ -9,24 +9,8 @@
 import Foundation
 
 public struct RestaurantSortComparator {
-    
-    public static func compare(
-        _ lhs: SortableRestaurant,
-        _ rhs: SortableRestaurant,
-        _ lBookmarked: Bool,
-        _ rBookmarked: Bool,
-        sortField: RestaurantSortField
-    ) -> Bool {
-        if lBookmarked != rBookmarked {
-            return lBookmarked && !rBookmarked
-        }
-        if lhs.status != rhs.status {
-            return lhs.status < rhs.status
-        }        
-        let lValue = lhs.sortingValues.getFieldValue(sortField)
-        let rValue = rhs.sortingValues.getFieldValue(sortField)
-        return lValue < rValue
-    }
+
+    // MARK: - Main sorter
     
     public static func sorted(
         _ list: [SortableRestaurant],
@@ -34,21 +18,68 @@ public struct RestaurantSortComparator {
         sortField: RestaurantSortField,
         nameFilter: String
     ) -> [SortableRestaurant] {
-        let listWithBookmarks = list
+        let sortedList = list
             .filter {
-                nameFilter.count == 0 || $0.name.localizedCaseInsensitiveContains(nameFilter)                
+                self.isRestaurantIncluded($0, filteredByName: nameFilter)
             }
             .map { restaurant -> (SortableRestaurant, Bool) in
-                let isBookmarked: Bool = bookmarkStore?.isBookmarked(restaurant.bookmarkId)
-                    ?? false
+                let isBookmarked = self.isRestaurantBookmarked(restaurant, bookmarkStore: bookmarkStore)
                 return (restaurant, isBookmarked)
             }
-        let sortedList = listWithBookmarks.sorted { (lhs, rhs) -> Bool in
-                self.compare(lhs.0, rhs.0, lhs.1, rhs.1, sortField: sortField)
+            .sorted { (lhs, rhs) -> Bool in
+                self.compare(lhs.0, rhs.0, lhs.1, rhs.1, sortField)
             }
             .map { $0.0 }
-        print("Before sort: \(list.map { $0.name })")
-        print("After sort: \(sortedList.map { $0.name })")
         return sortedList
+    }
+
+    // MARK: - Utility functions
+
+    public static func compare(
+        lhs: SortableRestaurant,
+        rhs: SortableRestaurant,
+        lBookmarked: Bool = false,
+        rBookmarked: Bool = false,
+        sortField: RestaurantSortField
+    ) -> Bool {
+        return self.compare(lhs, rhs, lBookmarked, rBookmarked, sortField)
+    }
+    
+    public static func compare(
+        _ lhs: SortableRestaurant,
+        _ rhs: SortableRestaurant,
+        _ lBookmarked: Bool,
+        _ rBookmarked: Bool,
+        _ sortField: RestaurantSortField
+    ) -> Bool {
+        if lBookmarked != rBookmarked {
+            return lBookmarked && !rBookmarked
+        }
+        if lhs.status != rhs.status {
+            return lhs.status < rhs.status
+        }
+        let lValue = lhs.sortingValues.getFieldValue(sortField)
+        let rValue = rhs.sortingValues.getFieldValue(sortField)
+        if lValue != rValue {
+           return lValue < rValue
+        }
+        let result = lhs.name.compare(rhs.name, options: .caseInsensitive)
+        return result == .orderedAscending
+    }
+    
+    static func isRestaurantIncluded(
+        _ restaurant: Restaurant,
+        filteredByName nameFilter: String
+    ) -> Bool {
+        return nameFilter.count == 0
+            || restaurant.name.localizedCaseInsensitiveContains(nameFilter)
+    }
+    
+    static func isRestaurantBookmarked(
+        _ restaurant: Restaurant,
+        bookmarkStore: AnyBookmarkStore<String>?
+    ) -> Bool {
+        return bookmarkStore?.isBookmarked(restaurant.bookmarkId)
+            ?? false
     }
 }

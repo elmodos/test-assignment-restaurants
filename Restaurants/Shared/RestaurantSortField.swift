@@ -23,6 +23,6 @@ public enum RestaurantSortField: String, CaseIterable {
 extension RestaurantSortField: CustomStringConvertible {
     
     public var description: String {
-        return self.rawValue.camelCaseToWords()
+        return self.rawValue.camelCaseToWords().capitalized
     }
 }

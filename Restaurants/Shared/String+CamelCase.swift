@@ -12,11 +12,10 @@ extension String {
     
     func camelCaseToWords() -> String {
         return unicodeScalars.reduce("") {
-            return CharacterSet.uppercaseLetters.contains($1)
+            let touches = $0.count > 0 && !$0.hasSuffix(" ")
+            return touches && CharacterSet.uppercaseLetters.contains($1)
                 ? $0 + " " + String($1)
                 : $0 + String($1)
         }
-        .trimmingCharacters(in: .whitespaces)
-        .capitalized
     }
 }

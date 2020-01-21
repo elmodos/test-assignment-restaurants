@@ -154,7 +154,6 @@ class RestaurantListViewController: UITableViewController {
     }
     
     private func showRestaurantDetails(_ model: RestaurantItemViewModel) {
-        #warning("TODO")
         print("Model: \(model)")
     }
     

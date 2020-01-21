@@ -6,7 +6,8 @@ target 'Restaurants' do
   pod 'SwiftLint'
   pod 'RxSwift'
   pod 'RxCocoa'
-
+  pod "RxTest"
+  
   # Pods for Restaurants
 
   target 'RestaurantsTests' do

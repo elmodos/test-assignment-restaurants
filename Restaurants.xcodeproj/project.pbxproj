@@ -39,6 +39,15 @@
 		FA824D7823D4DC4200BDE864 /* String+CamelCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA824D7723D4DC4200BDE864 /* String+CamelCase.swift */; };
 		FA824D7A23D4FE3200BDE864 /* RestaurantSortComparator.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA824D7923D4FE3200BDE864 /* RestaurantSortComparator.swift */; };
 		FA824D7C23D5071700BDE864 /* RestaurantSortingValues+RestaurantSortingField.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA824D7B23D5071700BDE864 /* RestaurantSortingValues+RestaurantSortingField.swift */; };
+		FAD345EE23D7503D00CD157B /* RestaurantSortingValues+RestaurantSortingFieldTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAD345ED23D7503D00CD157B /* RestaurantSortingValues+RestaurantSortingFieldTests.swift */; };
+		FAD345F023D7532600CD157B /* RestaurantStatusTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAD345EF23D7532600CD157B /* RestaurantStatusTests.swift */; };
+		FAD345F223D7544700CD157B /* String+CamelCaseTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAD345F123D7544700CD157B /* String+CamelCaseTests.swift */; };
+		FAD345F423D758D200CD157B /* RestaurantSortingValuesModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAD345F323D758D200CD157B /* RestaurantSortingValuesModelTests.swift */; };
+		FAD345F623D75A9400CD157B /* RestaurantModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAD345F523D75A9400CD157B /* RestaurantModelTests.swift */; };
+		FAD345F823D75EAC00CD157B /* RestaurantListModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAD345F723D75EAC00CD157B /* RestaurantListModelTests.swift */; };
+		FAD345FA23D776BC00CD157B /* RestaurantSortComparatorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAD345F923D776BC00CD157B /* RestaurantSortComparatorTests.swift */; };
+		FAD345FC23D7968900CD157B /* SortViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAD345FB23D7968900CD157B /* SortViewModelTests.swift */; };
+		FAD345FE23D7A0D900CD157B /* RestaurantItemViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAD345FD23D7A0D900CD157B /* RestaurantItemViewModelTests.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -92,6 +101,15 @@
 		FA824D7723D4DC4200BDE864 /* String+CamelCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+CamelCase.swift"; sourceTree = "<group>"; };
 		FA824D7923D4FE3200BDE864 /* RestaurantSortComparator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RestaurantSortComparator.swift; sourceTree = "<group>"; };
 		FA824D7B23D5071700BDE864 /* RestaurantSortingValues+RestaurantSortingField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "RestaurantSortingValues+RestaurantSortingField.swift"; sourceTree = "<group>"; };
+		FAD345ED23D7503D00CD157B /* RestaurantSortingValues+RestaurantSortingFieldTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "RestaurantSortingValues+RestaurantSortingFieldTests.swift"; sourceTree = "<group>"; };
+		FAD345EF23D7532600CD157B /* RestaurantStatusTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RestaurantStatusTests.swift; sourceTree = "<group>"; };
+		FAD345F123D7544700CD157B /* String+CamelCaseTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+CamelCaseTests.swift"; sourceTree = "<group>"; };
+		FAD345F323D758D200CD157B /* RestaurantSortingValuesModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RestaurantSortingValuesModelTests.swift; sourceTree = "<group>"; };
+		FAD345F523D75A9400CD157B /* RestaurantModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RestaurantModelTests.swift; sourceTree = "<group>"; };
+		FAD345F723D75EAC00CD157B /* RestaurantListModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RestaurantListModelTests.swift; sourceTree = "<group>"; };
+		FAD345F923D776BC00CD157B /* RestaurantSortComparatorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RestaurantSortComparatorTests.swift; sourceTree = "<group>"; };
+		FAD345FB23D7968900CD157B /* SortViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SortViewModelTests.swift; sourceTree = "<group>"; };
+		FAD345FD23D7A0D900CD157B /* RestaurantItemViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RestaurantItemViewModelTests.swift; sourceTree = "<group>"; };
 		FCBC2D899E9E6619D561E6BB /* Pods-RestaurantsTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-RestaurantsTests.release.xcconfig"; path = "Target Support Files/Pods-RestaurantsTests/Pods-RestaurantsTests.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -192,8 +210,11 @@
 				FA824D7523D4DC1100BDE864 /* RestaurantSortField.swift */,
 				FA824D4D23D46C4A00BDE864 /* RestaurantSortingValues.swift */,
 				FA824D7B23D5071700BDE864 /* RestaurantSortingValues+RestaurantSortingField.swift */,
+				FAD345ED23D7503D00CD157B /* RestaurantSortingValues+RestaurantSortingFieldTests.swift */,
 				FA824D4B23D46C3A00BDE864 /* RestaurantStatus.swift */,
+				FAD345EF23D7532600CD157B /* RestaurantStatusTests.swift */,
 				FA824D7723D4DC4200BDE864 /* String+CamelCase.swift */,
+				FAD345F123D7544700CD157B /* String+CamelCaseTests.swift */,
 				FA824D4623D46B3E00BDE864 /* ViewModel.swift */,
 			);
 			path = Shared;
@@ -203,11 +224,15 @@
 			isa = PBXGroup;
 			children = (
 				FA824D4F23D46CEB00BDE864 /* RestaurantSortingValuesModel.swift */,
+				FAD345F323D758D200CD157B /* RestaurantSortingValuesModelTests.swift */,
 				FA824D5123D46D2000BDE864 /* RestaurantModel.swift */,
+				FAD345F523D75A9400CD157B /* RestaurantModelTests.swift */,
 				FA824D5323D46E1200BDE864 /* RestaurantListModel.swift */,
+				FAD345F723D75EAC00CD157B /* RestaurantListModelTests.swift */,
 				FA824D6A23D4AD9500BDE864 /* UserDefaultsBookmarkStore.swift */,
 				FA824D6C23D4C85300BDE864 /* UserDefaultsBookmarkStoreTests.swift */,
 				FA824D7923D4FE3200BDE864 /* RestaurantSortComparator.swift */,
+				FAD345F923D776BC00CD157B /* RestaurantSortComparatorTests.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -217,7 +242,9 @@
 			children = (
 				FA824D5C23D4746E00BDE864 /* RestaurantListViewModel.swift */,
 				FA824D5E23D4749200BDE864 /* RestaurantItemViewModel.swift */,
+				FAD345FD23D7A0D900CD157B /* RestaurantItemViewModelTests.swift */,
 				FA824D6E23D4CBD300BDE864 /* SortViewModel.swift */,
+				FAD345FB23D7968900CD157B /* SortViewModelTests.swift */,
 			);
 			path = ViewModels;
 			sourceTree = "<group>";
@@ -478,7 +505,16 @@
 			files = (
 				FA824D3423D4626300BDE864 /* RestaurantsTests.swift in Sources */,
 				FA824D5A23D4718F00BDE864 /* RestaurantListLoaderTests.swift in Sources */,
+				FAD345F623D75A9400CD157B /* RestaurantModelTests.swift in Sources */,
 				FA824D6D23D4C85300BDE864 /* UserDefaultsBookmarkStoreTests.swift in Sources */,
+				FAD345FE23D7A0D900CD157B /* RestaurantItemViewModelTests.swift in Sources */,
+				FAD345FA23D776BC00CD157B /* RestaurantSortComparatorTests.swift in Sources */,
+				FAD345F023D7532600CD157B /* RestaurantStatusTests.swift in Sources */,
+				FAD345EE23D7503D00CD157B /* RestaurantSortingValues+RestaurantSortingFieldTests.swift in Sources */,
+				FAD345F823D75EAC00CD157B /* RestaurantListModelTests.swift in Sources */,
+				FAD345F223D7544700CD157B /* String+CamelCaseTests.swift in Sources */,
+				FAD345F423D758D200CD157B /* RestaurantSortingValuesModelTests.swift in Sources */,
+				FAD345FC23D7968900CD157B /* SortViewModelTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

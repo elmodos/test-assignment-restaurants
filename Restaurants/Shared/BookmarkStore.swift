@@ -13,7 +13,7 @@ public protocol BookmarkStore {
     associatedtype Element
     
     var bookmarksChanged: Observable<Void> { get }
-    func setBookmarked(_ value: Bool, element: Element)
+    mutating func setBookmarked(_ value: Bool, element: Element)
     func isBookmarked(_ element: Element) -> Bool
 }
 
@@ -26,7 +26,7 @@ public class AnyBookmarkStore<TElement: Encodable & Equatable> : BookmarkStore {
 
 public extension BookmarkStore {
     
-    func toggle(for element: Element) {
+    mutating func toggle(for element: Element) {
         let isBookmarked =  self.isBookmarked(element)
         self.setBookmarked(!isBookmarked, element: element)
     }

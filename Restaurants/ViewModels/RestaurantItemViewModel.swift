@@ -39,7 +39,7 @@ class RestaurantItemViewModel: ViewModel {
     }
 
     func transform(input: Input) -> Output {
-        let bookmarkStore = self.dependencies.bookmarkStore
+        var bookmarkStore = self.dependencies.bookmarkStore
         let bookmarkElement = self.dependencies.model.bookmarkId
             
         input.bookmark?

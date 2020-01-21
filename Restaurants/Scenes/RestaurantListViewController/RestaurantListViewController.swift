@@ -84,12 +84,14 @@ class RestaurantListViewController: UITableViewController {
             .tap
             .throttle(.milliseconds(300), scheduler: MainScheduler.instance)
         let viewVisible = self.viewAppearRelay.asObservable()
-        
+
+        let filterText = self.filterTextRelay.asDriver()
+
         let input = RestaurantListViewModel.Input(
             itemAtIndexSelected: itemAtIndexSelected,
             sortTapped: sortTapped,
             viewVisible: viewVisible,
-            filterText: self.filterTextRelay.asDriver()
+            filterText: filterText
         )
         
         // consuming
@@ -101,14 +103,13 @@ class RestaurantListViewController: UITableViewController {
         )
         
         listAndViewVisible
-            .filter {
-                print("View is visible \($1)")
-                return $1 == true
+            .filter { _, visible in visible }
+            .withLatestFrom(filterText) { (tuple, filterText) -> [(RestaurantItemViewModel, String)] in
+                tuple.0.map { ($0, filterText) } // model and filter text
             }
-            .map { (list, _) -> [RestaurantItemViewModel] in list }
-            .bind(to: self.tableView.rx.items(cellIdentifier: self.cellId)) { row, itemModel, cell in
+            .bind(to: self.tableView.rx.items(cellIdentifier: self.cellId)) { row, tuple, cell in
                 let itemCell = cell as? RestaurantItemCell
-                itemCell?.setModel(model: itemModel, sortField: model.currentSortField)
+                itemCell?.setModel(model: tuple.0, sortField: model.currentSortField, filterText: tuple.1)
             }
             .disposed(by: self.disposeBag)
         

@@ -17,6 +17,7 @@ class RestaurantListViewController: UITableViewController {
     let disposeBag = DisposeBag()
     lazy var buttonItemSort = UIBarButtonItem(title: "Sort", style: .plain, target: nil, action: nil)
     private let viewAppearRelay = BehaviorRelay<Bool>(value: false)
+    private let filterTextRelay = BehaviorRelay<String>(value: String())
     
     init(viewModel: RestaurantListViewModel) {
         self.viewModel = viewModel
@@ -31,6 +32,17 @@ class RestaurantListViewController: UITableViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+
+        // filter input
+        let (headerView, filterTextDriver) = self.createFilterInputView()
+        self.tableView.tableHeaderView = headerView
+        
+        // route filter text into relay to be used as input for model
+        filterTextDriver.asObservable()
+            .map { $0 ?? String()}
+            .bind(to: self.filterTextRelay)
+            .disposed(by: self.disposeBag)
+        
         RestaurantItemCell.register(in: self.tableView, reuseId: self.cellId)
         self.bindModel(self.viewModel)
     }
@@ -59,6 +71,8 @@ class RestaurantListViewController: UITableViewController {
 
     private func bindModel(_ model: RestaurantListViewModel) {
         // exposing events
+        self.tableView.delegate = nil
+        self.tableView.dataSource = nil
         let itemAtIndexSelected = self.tableView.rx
             .itemSelected
             .do(onNext: { [weak self] in
@@ -70,32 +84,32 @@ class RestaurantListViewController: UITableViewController {
             .tap
             .throttle(.milliseconds(300), scheduler: MainScheduler.instance)
         let viewVisible = self.viewAppearRelay.asObservable()
-        
+
+        let filterText = self.filterTextRelay.asDriver()
+
         let input = RestaurantListViewModel.Input(
             itemAtIndexSelected: itemAtIndexSelected,
             sortTapped: sortTapped,
-            viewVisible: viewVisible
+            viewVisible: viewVisible,
+            filterText: filterText
         )
         
         // consuming
         let output = self.viewModel.transform(input: input)
 
-        self.tableView.delegate = nil
-        self.tableView.dataSource = nil
         let listAndViewVisible = Observable.combineLatest(
             output.list.asObservable(),
             self.viewAppearRelay.asObservable()
         )
         
         listAndViewVisible
-            .filter {
-                print("View is visible \($1)")
-                return $1 == true
+            .filter { _, visible in visible }
+            .withLatestFrom(filterText) { (tuple, filterText) -> [(RestaurantItemViewModel, String)] in
+                tuple.0.map { ($0, filterText) } // model and filter text
             }
-            .map { (list, _) -> [RestaurantItemViewModel] in list }
-            .bind(to: self.tableView.rx.items(cellIdentifier: self.cellId)) { row, itemModel, cell in
+            .bind(to: self.tableView.rx.items(cellIdentifier: self.cellId)) { row, tuple, cell in
                 let itemCell = cell as? RestaurantItemCell
-                itemCell?.setModel(model: itemModel, sortField: model.currentSortField)
+                itemCell?.setModel(model: tuple.0, sortField: model.currentSortField, filterText: tuple.1)
             }
             .disposed(by: self.disposeBag)
         
@@ -112,6 +126,31 @@ class RestaurantListViewController: UITableViewController {
                     ?? print("Warning: self already deallocated")
             })
             .disposed(by: self.disposeBag)
+    }
+    
+    private func createFilterInputView() -> (UIView, Driver<String?>) {
+        let searchBar = UISearchBar()
+        searchBar.placeholder = "Filter by name"
+        searchBar.searchBarStyle = .minimal
+        searchBar.returnKeyType = .done
+        searchBar.sizeToFit()
+        
+        let toolbar = UIToolbar()
+        let doneButton = UIBarButtonItem(barButtonSystemItem: .done, target: nil, action: nil)
+        toolbar.setItems([doneButton], animated: false)
+        toolbar.sizeToFit()
+        searchBar.inputAccessoryView = toolbar
+
+        // Done or Return to dismiss keyboard
+        Observable.of(
+                searchBar.rx.searchButtonClicked.asObservable(),
+                doneButton.rx.tap.asObservable()
+            )
+            .flatMap { $0 }
+            .subscribe(onNext: { [weak self] in self?.viewIfLoaded?.endEditing(true) })
+            .disposed(by: self.disposeBag)
+        
+        return (searchBar, searchBar.rx.text.asDriver())
     }
     
     private func showRestaurantDetails(_ model: RestaurantItemViewModel) {

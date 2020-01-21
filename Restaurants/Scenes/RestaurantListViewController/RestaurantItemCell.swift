@@ -33,10 +33,12 @@ class RestaurantItemCell: UITableViewCell {
     @IBOutlet private weak var buttonBookmark: UIButton?
     
     var sortField: RestaurantSortField? = nil
-    
+    var filterText: String? = nil
+
     override func prepareForReuse() {
         super.prepareForReuse()
         self.sortField = nil
+        self.filterText = nil
         self.reuseDisposeBag = DisposeBag()
     }
     
@@ -48,9 +50,10 @@ class RestaurantItemCell: UITableViewCell {
         }
     }
     
-    public func setModel(model: RestaurantItemViewModel?, sortField: RestaurantSortField) {
+    public func setModel(model: RestaurantItemViewModel?, sortField: RestaurantSortField, filterText: String) {
         self.viewModel = model
         self.sortField = sortField
+        self.filterText = filterText
         if let model = self.viewModel {
             self.bindViewModel(model)
         }
@@ -88,7 +91,16 @@ class RestaurantItemCell: UITableViewCell {
     }
     
     private func load(restaurant: SortableRestaurant, isBookmarked: Bool) {
-        self.labelTitle?.text = restaurant.name
+        
+        let nsName = restaurant.name as NSString
+        if let filterText = self.filterText {
+            let range = nsName.range(of: filterText, options: .caseInsensitive)
+            let attributedString = NSMutableAttributedString(string: restaurant.name)
+            attributedString.addAttributes([.backgroundColor: UIColor.secondarySystemFill], range: range)
+            self.labelTitle?.attributedText = attributedString
+        } else {
+            self.labelTitle?.text = restaurant.name
+        }
         self.labelOpenStatus?.text = restaurant.status.title
         self.labelOpenStatus?.textColor = restaurant.status.toColor()
         

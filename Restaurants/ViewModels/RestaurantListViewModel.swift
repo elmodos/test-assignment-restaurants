@@ -16,6 +16,7 @@ class RestaurantListViewModel: ViewModel {
         let itemAtIndexSelected: Observable<Int>
         let sortTapped: Observable<Void>
         let viewVisible: Observable<Bool>
+        let filterText: Driver<String>
     }
 
     struct Output {
@@ -33,7 +34,6 @@ class RestaurantListViewModel: ViewModel {
     public var currentSortField: RestaurantSortField { self.sortField.value }
     private lazy var sortField =
         BehaviorRelay<RestaurantSortField>(value: self.dependencies.initialSortValue)
-    // TODO: filter value here
     let disposeBag = DisposeBag()
     
     init(dependencies: Dependencies) {
@@ -43,7 +43,7 @@ class RestaurantListViewModel: ViewModel {
     func transform(input: Input) -> Output {
         let bookmarkStore = self.dependencies.bookmarkStore
         let refreshListOnBookmark = BehaviorRelay<Void>(value: ())
-        self.dependencies.bookmarkStore?
+        bookmarkStore?
             .bookmarksChanged
             .bind(to: refreshListOnBookmark)
             .disposed(by: self.disposeBag)
@@ -52,20 +52,18 @@ class RestaurantListViewModel: ViewModel {
             input.viewVisible,
             Observable.just(self.dependencies.model.restaurants),
             refreshListOnBookmark.asObservable(),
-            self.sortField.asObservable()
-            // TODO: filter here
+            self.sortField.asObservable(),
+            input.filterText.asObservable()
         )
         
         let processedList = combinedValues
-            .filter { (visible, _, _, _) -> Bool in
-                visible // update list only if view is visible
-            }
-            .map { (_, list: [SortableRestaurant], _, softField: RestaurantSortField) -> [SortableRestaurant] in
-                print("Sorting by: \(softField.description)")
+            .filter { (visible, _, _, _, _) -> Bool in visible }
+            .map { (_, list: [SortableRestaurant], _, softField: RestaurantSortField, filter) -> [SortableRestaurant] in
                 return RestaurantSortComparator.sorted(
                     list,
                     bookmarkStore: bookmarkStore,
-                    sortField: softField
+                    sortField: softField,
+                    nameFilter: filter
                 )
             }
             .map { list -> [RestaurantItemViewModel] in

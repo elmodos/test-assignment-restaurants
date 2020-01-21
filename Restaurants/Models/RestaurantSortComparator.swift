@@ -28,13 +28,16 @@ public struct RestaurantSortComparator {
         return lValue < rValue
     }
     
-    public static func sorted( // TODO: filteredAndSorted
+    public static func sorted(
         _ list: [SortableRestaurant],
         bookmarkStore: AnyBookmarkStore<String>?,
-        sortField: RestaurantSortField
+        sortField: RestaurantSortField,
+        nameFilter: String
     ) -> [SortableRestaurant] {
         let listWithBookmarks = list
-            // TODO: filter first
+            .filter {
+                nameFilter.count == 0 || $0.name.localizedCaseInsensitiveContains(nameFilter)                
+            }
             .map { restaurant -> (SortableRestaurant, Bool) in
                 let isBookmarked: Bool = bookmarkStore?.isBookmarked(restaurant.bookmarkId)
                     ?? false
